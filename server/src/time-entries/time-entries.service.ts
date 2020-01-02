@@ -19,19 +19,25 @@ export class TimeEntriesService {
     'Harvest-Account-ID': this.configService.get<string>('HARVEST_ID'),
   };
 
-  async getEntriesForMonth(year: string, month: string): Promise<any> {
+  async getEntriesForMonth(year: string, month: string) {
     const lastDay = this.calendarService.daysInMonth(+year, +month - 1);
 
-    try {
-      return await this.httpService
-        .get(API + ENDPOINT, {
-          headers: this.headers,
-          params: { client_id: this.configService.get<string>('HARVEST_CLIENT_ID'), from: `${year}-${month}-01`, to: `${year}-${month}-${lastDay}` },
-        })
-        .toPromise();
-    } catch (e) {
-      console.log(e);
-      return 'Something went wrong';
-    }
+    return await this.httpService
+      .get<{ time_entries: TimeEntry[] }>(API + ENDPOINT, {
+        headers: this.headers,
+        params: { client_id: this.configService.get<string>('HARVEST_CLIENT_ID'), from: `${year}-${month}-01`, to: `${year}-${month}-${lastDay}` },
+      })
+      .toPromise();
   }
+}
+
+export interface TimeEntry {
+  id: number;
+  spent_date: string;
+  user: {
+    id: number;
+    name: string;
+  };
+  hours: number;
+  notes: string;
 }

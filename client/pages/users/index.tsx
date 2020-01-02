@@ -21,6 +21,12 @@ const WithInitialProps: NextPage<Props> = ({ months, pathname }) => (
           <strong>{month.monthName}</strong>
           <br />
           Work days: {month.workDays}
+          <br />
+          Work hours: {month.workHours}
+          <br />
+          Worked: {month.totalHours}
+          <br />
+          Total: <span style={{ color: month.overtime ? 'red' : 'green' }}>{month.difference}</span>
         </div>
       );
     })}
@@ -43,7 +49,20 @@ WithInitialProps.getInitialProps = async ({ pathname }) => {
   // the component.
   const months: any[] = await sampleFetchWrapper('http://localhost:3001/calendar');
 
-  return { months, pathname };
+  return Promise.all(
+    months.map(async month => {
+      const path = `${(+month.month + 1).toString().padStart(2, '0')}/${month.year}`;
+
+      const totalHours = await sampleFetchWrapper(`http://localhost:3001/time-entries/total/${path}`);
+
+      const overtime = month.workHours < totalHours;
+      const difference = (month.workHours - totalHours).toPrecision(4);
+
+      return { ...month, totalHours, overtime, difference };
+    }),
+  ).then(months => {
+    return { months, pathname };
+  });
 };
 
 export default WithInitialProps;
