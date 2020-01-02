@@ -5,6 +5,7 @@ export interface WorkDays {
   monthName: string;
   year: number;
   workDays: number;
+  workHours: number;
 }
 
 @Injectable()
@@ -14,12 +15,14 @@ export class CalendarService {
 
     for (let index = 0; index < 12; index++) {
       const date = new Date(year, index, 1);
+      const workDays = this.workDaysInMonth(year, index);
 
       months.push({
         month: index,
         year,
         monthName: date.toLocaleString('default', { month: 'long' }),
-        workDays: this.workDaysInMonth(year, index),
+        workDays,
+        workHours: workDays * 6,
       });
     }
 
