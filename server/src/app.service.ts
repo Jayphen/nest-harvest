@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 const options = {
   protocol: 'https:',
   hostname: 'api.harvestapp.com',
-  path: '/v2/invoices',
+  path: '/v2/time_entries',
   headers: {},
 };
 
@@ -20,7 +20,12 @@ export class AppService {
 
   async getHello(): Promise<any> {
     try {
-      const res = await this.httpService.get(options.protocol + '//' + options.hostname + options.path, { headers: this.headers }).toPromise();
+      const res = await this.httpService
+        .get(options.protocol + '//' + options.hostname + options.path, {
+          headers: this.headers,
+          params: { client_id: this.configService.get<string>('HARVEST_CLIENT_ID') },
+        })
+        .toPromise();
       return res;
     } catch (e) {
       console.log(e);
