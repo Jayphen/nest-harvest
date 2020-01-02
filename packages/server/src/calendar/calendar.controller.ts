@@ -10,8 +10,21 @@ export class CalendarController {
 
   @Get()
   getThisYearsMonths(): WorkDays[] {
-    const year = new Date().getFullYear();
+    const today = new Date();
+    const year = today.getFullYear();
     const data = this.calService.getMonths(year);
+
+    return data;
+  }
+
+  @Get('days-passed')
+  getDaysPassed(): { days: number; hours: number } {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth();
+    const day = today.getDate();
+
+    const data = this.calService.workDaysPassed(year, month, day);
 
     return data;
   }

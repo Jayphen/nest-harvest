@@ -33,9 +33,10 @@ const styles = css`
 type Props = {
   months: any[];
   pathname: string;
+  passedThisMonth: { days: number; hours: number };
 };
 
-const WithInitialProps: NextPage<Props> = ({ months, pathname }) => (
+const WithInitialProps: NextPage<Props> = ({ months, passedThisMonth, pathname }) => (
   <Layout title="Users List | Next.js + TypeScript Example">
     API: {process.env.API}
     <p>You are currently on: {pathname}</p>
@@ -56,6 +57,19 @@ const WithInitialProps: NextPage<Props> = ({ months, pathname }) => (
               {month.overtime ? '+' : ''}
               {month.difference}
             </span>
+            {month.isCurrentMonth && (
+              <>
+                <br />
+                <br />
+                {passedThisMonth.days} work days have passed and you've worked {month.totalHours} hours.
+                {passedThisMonth.hours < month.totalHours && (
+                  <>
+                    <br />
+                    Maybe you should take a break!
+                  </>
+                )}
+              </>
+            )}
           </div>
         );
       })}
@@ -77,6 +91,7 @@ WithInitialProps.getInitialProps = async ({ pathname }) => {
 
   let months: any[] = await fetchWrapper(`${API}/calendar`);
   const totals: number[] = await fetchWrapper(`${API}/time-entries/totals/2020`);
+  const passedThisMonth: { days: number; hours: number } = await fetchWrapper(`${API}/calendar/days-passed`);
 
   months = months.map((month, index) => ({
     ...month,
@@ -85,7 +100,7 @@ WithInitialProps.getInitialProps = async ({ pathname }) => {
     difference: (totals[index] - month.workHours).toPrecision(4),
   }));
 
-  return { months, pathname };
+  return { months, passedThisMonth, pathname };
 };
 
 export default WithInitialProps;
