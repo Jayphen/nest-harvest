@@ -12,5 +12,10 @@
       "src": "/(.*)",
       "dest": "dist/main.js"
     }
-  ]
+  ],
+  "env": {
+    "HARVEST_ID": "@harvest-id",
+    "HARVEST_TOKEN": "@harvest-token",
+    "HARVEST_CLIENT_ID": "@harvest-client-id"
+  }
 }

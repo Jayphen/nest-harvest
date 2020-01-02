@@ -31,7 +31,6 @@ const WithInitialProps: NextPage<Props> = ({ months, pathname }) => (
         <a>Go home</a>
       </Link>
     </p>
-
     <div>
       <h2>debug</h2>
       <pre>{JSON.stringify(months, null, 2)}</pre>
@@ -40,8 +39,8 @@ const WithInitialProps: NextPage<Props> = ({ months, pathname }) => (
 );
 
 WithInitialProps.getInitialProps = async ({ pathname }) => {
-  let months: any[] = await fetchWrapper('http://localhost:3001/calendar');
-  const totals: number[] = await fetchWrapper('http://localhost:3001/time-entries/totals/2020');
+  let months: any[] = await fetchWrapper(`${process.env.API}/calendar`);
+  const totals: number[] = await fetchWrapper(`${process.env.API}/time-entries/totals/2020`);
 
   months = months.map((month, index) => ({
     ...month,
