@@ -20,7 +20,7 @@ export class CalendarService {
       months.push({
         month: index,
         year,
-        monthName: date.toLocaleString('default', { month: 'long' }),
+        monthName: date.toLocaleString('en-GB', { month: 'long' }),
         workDays,
         workHours: workDays * 6,
       });
