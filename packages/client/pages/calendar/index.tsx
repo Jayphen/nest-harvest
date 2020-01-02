@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 import Link from 'next/link';
 import Layout from '../../components/Layout';
-import { sampleFetchWrapper } from '../../utils/sample-api';
+import { fetchWrapper } from '../../utils/fetchWrapper';
 
 type Props = {
   months: any[];
@@ -44,10 +44,9 @@ const WithInitialProps: NextPage<Props> = ({ months, pathname }) => (
 );
 
 WithInitialProps.getInitialProps = async ({ pathname }) => {
-  let months: any[] = await sampleFetchWrapper('http://localhost:3001/calendar');
-  const totals: number[] = await sampleFetchWrapper('http://localhost:3001/time-entries/totals/2020');
+  let months: any[] = await fetchWrapper('http://localhost:3001/calendar');
+  const totals: number[] = await fetchWrapper('http://localhost:3001/time-entries/totals/2020');
 
-  console.log(totals);
   months = months.map((month, index) => ({
     ...month,
     totalHours: totals[index],
