@@ -1,6 +1,5 @@
 require('dotenv').config();
-
-exports.default = {
+module.exports = {
   env: {
     API: process.env.API,
   },

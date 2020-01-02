@@ -10,6 +10,7 @@ type Props = {
 
 const WithInitialProps: NextPage<Props> = ({ months, pathname }) => (
   <Layout title="Users List | Next.js + TypeScript Example">
+    API: {process.env.API}
     <p>You are currently on: {pathname}</p>
     {months.map(month => {
       return (
@@ -39,8 +40,10 @@ const WithInitialProps: NextPage<Props> = ({ months, pathname }) => (
 );
 
 WithInitialProps.getInitialProps = async ({ pathname }) => {
-  let months: any[] = await fetchWrapper(`${process.env.API}/calendar`);
-  const totals: number[] = await fetchWrapper(`${process.env.API}/time-entries/totals/2020`);
+  const { API } = process.env;
+
+  let months: any[] = await fetchWrapper(`${API}/calendar`);
+  const totals: number[] = await fetchWrapper(`${API}/time-entries/totals/2020`);
 
   months = months.map((month, index) => ({
     ...month,

@@ -1,5 +1,10 @@
 {
   "env": {
     "API": "@api"
+  },
+  "build": {
+    "env": {
+      "API": "@api"
+    }
   }
 }
