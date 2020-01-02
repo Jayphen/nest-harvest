@@ -65,7 +65,7 @@ const WithInitialProps: NextPage<Props> = ({ months, passedThisMonth, pathname }
                 {passedThisMonth.hours < month.totalHours && (
                   <>
                     <br />
-                    That's {month.totalHours - passedThisMonth.hours} hours overtime. Maybe you should take a break!
+                    That's {(month.totalHours - passedThisMonth.hours).toPrecision(2)} hours overtime. Maybe you should take a break!
                   </>
                 )}
               </>
