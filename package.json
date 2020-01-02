@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "nest-harvest",
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "concurrently": "^5.0.2"
+  },
+  "scripts": {
+    "client": "yarn workspace client dev",
+    "server": "yarn workspace server start:dev",
+    "start": "concurrently --kill-others-on-fail \"yarn server\"  \"yarn client\""
+  }
+}

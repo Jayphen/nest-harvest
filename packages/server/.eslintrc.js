@@ -21,5 +21,6 @@ module.exports = {
     '@typescript-eslint/explicit-member-accessibility': 'off',
     'sort-imports': 'off',
     '@typescript-eslint/no-parameter-properties': 'off',
+    'no-unused-vars': 'off',
   },
 };

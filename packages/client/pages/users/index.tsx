@@ -44,9 +44,6 @@ const WithInitialProps: NextPage<Props> = ({ months, pathname }) => (
 );
 
 WithInitialProps.getInitialProps = async ({ pathname }) => {
-  // Example for including initial props in a Next.js function component page.
-  // Don't forget to include the respective types for any props passed into
-  // the component.
   let months: any[] = await sampleFetchWrapper('http://localhost:3001/calendar');
   const totals: number[] = await sampleFetchWrapper('http://localhost:3001/time-entries/totals/2020');
 
