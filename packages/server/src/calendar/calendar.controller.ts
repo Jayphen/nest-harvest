@@ -1,8 +1,10 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards, UseInterceptors, CacheInterceptor, CacheTTL } from '@nestjs/common';
 import { CalendarYearGuard } from '../calendar-year.guard';
 import { CalendarService, WorkDays } from './calendar.service';
 
 @Controller('calendar')
+@UseInterceptors(CacheInterceptor)
+@CacheTTL(86400)
 export class CalendarController {
   constructor(private readonly calService: CalendarService) {}
 

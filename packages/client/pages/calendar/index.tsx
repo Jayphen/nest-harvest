@@ -10,10 +10,6 @@ type Props = {
 
 const WithInitialProps: NextPage<Props> = ({ months, pathname }) => (
   <Layout title="Users List | Next.js + TypeScript Example">
-    <h1>Users List</h1>
-    <p>
-      Example fetching data from inside <code>getInitialProps()</code>.
-    </p>
     <p>You are currently on: {pathname}</p>
     {months.map(month => {
       return (
