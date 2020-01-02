@@ -1,5 +1,5 @@
 import { Controller, Get, Param, UseGuards, UseInterceptors, CacheInterceptor, CacheTTL } from '@nestjs/common';
-import { CalendarYearGuard } from '../calendar-year.guard';
+import { CalendarYearGuard } from './calendar-year.guard';
 import { CalendarService, WorkDays } from './calendar.service';
 
 @Controller('calendar')
