@@ -1,4 +1,4 @@
-import { Module, HttpModule } from '@nestjs/common';
+import { Module, HttpModule, CacheModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CalendarController } from './calendar/calendar.controller';
@@ -8,7 +8,7 @@ import { TimeEntriesController } from './time-entries/time-entries.controller';
 import { TimeEntriesService } from './time-entries/time-entries.service';
 
 @Module({
-  imports: [HttpModule, ConfigModule.forRoot()],
+  imports: [HttpModule, ConfigModule.forRoot(), CacheModule.register({ ttl: 90 })],
   controllers: [AppController, CalendarController, TimeEntriesController],
   providers: [AppService, CalendarService, TimeEntriesService],
 })

@@ -26,7 +26,7 @@ const WithInitialProps: NextPage<Props> = ({ months, pathname }) => (
           <br />
           Worked: {month.totalHours}
           <br />
-          Total: <span style={{ color: month.overtime ? 'red' : 'green' }}>{month.difference}</span>
+          Difference: <span style={{ color: month.overtime ? 'red' : 'green' }}>{month.difference}</span>
         </div>
       );
     })}
@@ -47,22 +47,18 @@ WithInitialProps.getInitialProps = async ({ pathname }) => {
   // Example for including initial props in a Next.js function component page.
   // Don't forget to include the respective types for any props passed into
   // the component.
-  const months: any[] = await sampleFetchWrapper('http://localhost:3001/calendar');
+  let months: any[] = await sampleFetchWrapper('http://localhost:3001/calendar');
+  const totals: number[] = await sampleFetchWrapper('http://localhost:3001/time-entries/totals/2020');
 
-  return Promise.all(
-    months.map(async month => {
-      const path = `${(+month.month + 1).toString().padStart(2, '0')}/${month.year}`;
+  console.log(totals);
+  months = months.map((month, index) => ({
+    ...month,
+    totalHours: totals[index],
+    overtime: totals[index] > month.workHours,
+    difference: (totals[index] - month.workHours).toPrecision(4),
+  }));
 
-      const totalHours = await sampleFetchWrapper(`http://localhost:3001/time-entries/total/${path}`);
-
-      const overtime = month.workHours < totalHours;
-      const difference = (month.workHours - totalHours).toPrecision(4);
-
-      return { ...month, totalHours, overtime, difference };
-    }),
-  ).then(months => {
-    return { months, pathname };
-  });
+  return { months, pathname };
 };
 
 export default WithInitialProps;
